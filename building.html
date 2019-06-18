@@ -1,0 +1,178 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Building Talvos &#8212; Talvos 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="prev" title="Talvos documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Talvos documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Talvos 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="building-talvos">
+<h1>Building Talvos<a class="headerlink" href="#building-talvos" title="Permalink to this headline">¶</a></h1>
+<p>Talvos is straightforward to build, and supports Linux, macOS, and Windows.
+Continuous integration is in place to ensure that the latest source available
+on GitHub builds and passes the internal test suite on each of these platforms.
+Prebuilt binaries for releases are provided on the <a class="reference external" href="https://github.com/talvos/talvos/releases">GitHub releases page</a>.</p>
+<p>Talvos requires a compiler that supports C++17.
+The following compilers/platforms are frequently tested via continuous
+integration (Travis CI and AppVeyor):</p>
+<ul class="simple">
+<li>GCC 7 (Ubuntu 14.04)</li>
+<li>GCC 9 (Ubuntu 14.04)</li>
+<li>Clang 5.0 (Ubuntu 14.04)</li>
+<li>Clang 8.0 (Ubuntu 14.04)</li>
+<li>AppleClang 9.1 (macOS 10.13 / Xcode 9.4)</li>
+<li>Visual Studio 2017 (x64)</li>
+</ul>
+<p>Building Talvos as a 32-bit library is not currently tested.</p>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Talvos has two required dependencies, SPIRV-Headers and SPIRV-Tools.</p>
+<p>SPIRV-Headers can be obtained by simply cloning <a class="reference external" href="https://github.com/KhronosGroup/SPIRV-Headers">the GitHub repository</a>.</p>
+<p>Prebuilt binaries for SPIRV-Tools are available on <a class="reference external" href="https://github.com/KhronosGroup/SPIRV-Tools/releases">its GitHub releases page</a>.
+The continuous integration platforms listed above all use the latest
+<code class="docutils literal notranslate"><span class="pre">master-tot</span></code> binaries.
+Alternatively, it can be built from source following the instructions provided
+in the SPIRV-Tools README.</p>
+<p>For Unix systems, it is recommended to have GNU readline available in order for
+the interactive debugger to provide a command history and other common shell
+keyboard shortcuts.
+On Linux the <code class="docutils literal notranslate"><span class="pre">libreadline-dev</span></code> (Debian) or <code class="docutils literal notranslate"><span class="pre">readline-devel</span></code> (RPM) packages
+provide the necessary development files.</p>
+</div>
+<div class="section" id="cmake">
+<h2>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h2>
+<p>Configuration is performed via CMake (2.8.12 or newer required).</p>
+<p>The following cache variables are used to inform Talvos of the location of the
+above dependencies, if necessary:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SPIRV_INCLUDE_DIR</span></code>
+- the directory containing <code class="docutils literal notranslate"><span class="pre">spirv/unified1/spirv.h</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SPIRV_TOOLS_INCLUDE_DIR</span></code>
+- the directory containing <code class="docutils literal notranslate"><span class="pre">spirv-tools/libspirv.hpp</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SPIRV_TOOLS_LIBRARY_DIR</span></code>
+- the directory containing <code class="docutils literal notranslate"><span class="pre">libSPIRV-Tools.a</span></code> (Unix) or <code class="docutils literal notranslate"><span class="pre">SPIRV-Tools.lib</span></code> (Windows)</li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> to set the target installation directory.</p>
+<p>While Talvos is still in the early stages of development, it is recommended to
+set <code class="docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> to <code class="docutils literal notranslate"><span class="pre">Debug</span></code> to enable assertions.</p>
+<p>A typical CMake command line might look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">&lt;</span><span class="n">path_to_talvos_source</span><span class="o">&gt;</span>                           \
+      <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span>                          \
+      <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=&lt;</span><span class="n">target_install_directory</span><span class="o">&gt;</span> \
+      <span class="o">-</span><span class="n">DSPIRV_INCLUDE_DIR</span><span class="o">=&lt;...&gt;</span>                         \
+      <span class="o">-</span><span class="n">DSPIRV_TOOLS_INCLUDE_DIR</span><span class="o">=&lt;...&gt;</span>                   \
+      <span class="o">-</span><span class="n">DSPIRV_TOOLS_LIBRARY_DIR</span><span class="o">=&lt;...&gt;</span>
+</pre></div>
+</div>
+<p>For Visual Studio pass <code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">&quot;Visual</span> <span class="pre">Studio</span> <span class="pre">15</span> <span class="pre">2017</span> <span class="pre">Win64&quot;</span></code> to select the
+64-bit version of Visual Studio 2017.</p>
+<p>To use Ninja instead of GNU Make on Unix pass <code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">Ninja</span></code>, and replace <code class="docutils literal notranslate"><span class="pre">make</span></code>
+with <code class="docutils literal notranslate"><span class="pre">ninja</span></code> for the commands in the next section.</p>
+</div>
+<div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>Once configured, build by typing <code class="docutils literal notranslate"><span class="pre">make</span></code> or using the <code class="docutils literal notranslate"><span class="pre">ALL_BUILD</span></code> project
+in Visual Studio.</p>
+<p>After building, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> or use the <code class="docutils literal notranslate"><span class="pre">RUN_TESTS</span></code> project in
+Visual Studio to run the test suite.
+If you experience test failures with a compiler/platform configuration that you
+expect to work, please open a <a class="reference external" href="https:/github.com/talvos/talvos/issues">GitHub issue</a>.</p>
+<p>Finally, use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> or the <code class="docutils literal notranslate"><span class="pre">INSTALL</span></code> project in Visual Studio to
+install Talvos if desired.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building Talvos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cmake">CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="talvos-cmd.html">Talvos command files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Talvos developer information</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Talvos documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Talvos 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Talvos developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

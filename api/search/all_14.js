@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['w',['W',['../structtalvos_1_1_vec4.html#a48cd4505ef22ac1e3ecc80f7f9c9f57c',1,'talvos::Vec4']]],
+  ['wait_5fevents',['WAIT_EVENTS',['../classtalvos_1_1_command.html#aa71dc10d3bd598e28c651b849ac0aecaabd16872553ac07c47e547c427eac02d9',1,'talvos::Command']]],
+  ['waiteventscommand',['WaitEventsCommand',['../classtalvos_1_1_wait_events_command.html',1,'talvos']]],
+  ['waiteventscommand',['WaitEventsCommand',['../classtalvos_1_1_wait_events_command.html#a3516246c583332ba74c8c83db54b2a67',1,'talvos::WaitEventsCommand']]],
+  ['waitforfences',['waitForFences',['../classtalvos_1_1_device.html#a1efcc824a03d0dd559bd8942b7533bfd',1,'talvos::Device']]],
+  ['waitidle',['waitIdle',['../classtalvos_1_1_queue.html#a1174dcf265f552fd7468ae1afc5a3809',1,'talvos::Queue']]],
+  ['wasdiscarded',['wasDiscarded',['../classtalvos_1_1_invocation.html#a2a51ee691881f869a03863af4f28024f',1,'talvos::Invocation']]],
+  ['width',['Width',['../classtalvos_1_1_framebuffer.html#a112a7c1336198868f82e365709f8695e',1,'talvos::Framebuffer']]],
+  ['workermutex',['WorkerMutex',['../classtalvos_1_1_pipeline_executor.html#a58d78cc39527c7ac08d9864d9bd2c9af',1,'talvos::PipelineExecutor']]],
+  ['workersignal',['WorkerSignal',['../classtalvos_1_1_pipeline_executor.html#ab834fbace560b56b53f0ee673f511005',1,'talvos::PipelineExecutor']]],
+  ['workerthreads',['WorkerThreads',['../classtalvos_1_1_pipeline_executor.html#a4af64afdbe8d6a3c8777d4ac4abb17d9',1,'talvos::PipelineExecutor']]],
+  ['workgroup',['Workgroup',['../classtalvos_1_1_workgroup.html',1,'talvos']]],
+  ['workgroup',['Workgroup',['../classtalvos_1_1_workgroup.html#a9598887fd3c3e9d84d00674dc50e5e24',1,'talvos::Workgroup::Workgroup(Device &amp;Dev, const PipelineExecutor &amp;Executor, Dim3 GroupId)'],['../classtalvos_1_1_workgroup.html#a08340f8da94f9c6e6cac9d23af5514b2',1,'talvos::Workgroup::Workgroup(const Workgroup &amp;)=delete'],['../namespacetalvos.html#a02b7e5155f02bf82f205b7fcfd2fdaacafb231b1a560e6ec9fde249bfecd06687',1,'talvos::Workgroup()']]],
+  ['workgroup_2ecpp',['Workgroup.cpp',['../_workgroup_8cpp.html',1,'']]],
+  ['workgroup_2eh',['Workgroup.h',['../_workgroup_8h.html',1,'']]],
+  ['workgroupbarrier',['workgroupBarrier',['../classtalvos_1_1_plugin.html#a9bddf3f115cf2bea74873f78778f5de0',1,'talvos::Plugin']]],
+  ['workgroupbegin',['workgroupBegin',['../classtalvos_1_1_plugin.html#ada52259ca6e3ac0c46aa340a96000fe3',1,'talvos::Plugin']]],
+  ['workgroupcomplete',['workgroupComplete',['../classtalvos_1_1_plugin.html#a12a09ebd85c61ae46886a7f67e42d691',1,'talvos::Plugin']]],
+  ['workgroupsizeid',['WorkgroupSizeId',['../classtalvos_1_1_module.html#a9a87b1b52eebe751b0d4623497ddf8c7',1,'talvos::Module']]],
+  ['workitemlist',['WorkItemList',['../classtalvos_1_1_workgroup.html#a519314379e6e3b0567a9bbf8d6d1c66e',1,'talvos::Workgroup']]],
+  ['workitems',['WorkItems',['../classtalvos_1_1_workgroup.html#ae965eaaa5a8acf0b0232e26e3aa1d5a9',1,'talvos::Workgroup']]],
+  ['write',['write',['../classtalvos_1_1_image.html#a7d501a4b6c2e20ff1cdd00d3e72d4b1b',1,'talvos::Image::write(const Texel &amp;T, uint64_t Address) const '],['../classtalvos_1_1_image.html#a80f0b8fffe93d2c2b794437a25a74584',1,'talvos::Image::write(const Texel &amp;T, uint64_t Address, VkFormat WriteFormat) const '],['../classtalvos_1_1_image_view.html#a4faa9630d53c495d1764037e52d590db',1,'talvos::ImageView::write()']]]
+];

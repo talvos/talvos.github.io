@@ -1,0 +1,218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Talvos documentation &#8212; Talvos 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building Talvos" href="building.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="building.html" title="Building Talvos"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Talvos 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="talvos-documentation">
+<h1>Talvos documentation<a class="headerlink" href="#talvos-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Talvos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="building.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html#cmake">CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building.html#building">Building</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#vulkan-runtime">Vulkan runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#talvos-cmd">talvos-cmd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#errors">Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#interactive-spir-v-execution">Interactive SPIR-V execution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="talvos-cmd.html">Talvos command files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="talvos-cmd.html#commands">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="talvos-cmd.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#example-instruction-tracing">Example (instruction tracing)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Talvos developer information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#coding-style">Coding style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#tests">Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#other-information">Other information</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="talvos">
+<h1>Talvos<a class="headerlink" href="#talvos" title="Permalink to this headline">¶</a></h1>
+<p>This project provides a SPIR-V interpreter and Vulkan device emulator, with the
+aim of providing an extensible dynamic analysis framework and debugger for
+SPIR-V shaders.
+Talvos provides an implementation of the Vulkan API to enable it to execute
+real Vulkan applications.
+Linux, macOS, and Windows are supported.</p>
+<p>Talvos is distributed under a three-clause BSD license. For full license
+terms please see the LICENSE file distributed with this source code.</p>
+<div class="section" id="status">
+<h2>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h2>
+<p>Talvos is still in the early stages of development.
+Compute shaders are the current focus, and Talvos is currently capable of
+executing various SPIR-V shaders generated from OpenCL kernels compiled with
+<a class="reference external" href="https://github.com/google/clspv">Clspv</a>.
+Talvos can also handle vertex and fragment shaders, with basic support for
+offscreen rendering currently in progress.
+Talvos currently passes around 15% of the
+<a class="reference external" href="https://github.com/KhronosGroup/VK-GL-CTS">Vulkan conformance test suite</a>.</p>
+<p>The codebase is changing relatively quickly as new features are added, so the
+internal and external APIs are all subject to change until we reach the 1.0
+release (suggestions for improvements always welcome).</p>
+<p>Future work may involve extending the emulator to support tessellation and
+geometry shaders, onscreen rendering, and implementing missing Vulkan API
+functions to reach conformance.
+Contributions in these (or other) areas would be extremely welcome.</p>
+</div>
+<div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>More detailed build instructions are provided
+<a class="reference external" href="https://talvos.github.io/building.html">here</a>.</p>
+<p>Building Talvos requires a compiler that supports C++17, and Python to enable
+the internal test suite.
+Talvos depends on
+<a class="reference external" href="https://github.com/KhronosGroup/SPIRV-Headers">SPIRV-Headers</a> and
+<a class="reference external" href="https://github.com/KhronosGroup/SPIRV-Tools">SPIRV-Tools</a>, and uses GNU
+readline to enhance the interactive debugger.</p>
+<p>Configure with CMake, indicating where SPIRV-Headers and SPIRV-Tools are
+installed if necessary:</p>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">&lt;</span><span class="n">path_to_talvos_source</span><span class="o">&gt;</span>                           <span class="err">\</span>
+      <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span>                          <span class="err">\</span>
+      <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=&lt;</span><span class="n">target_install_directory</span><span class="o">&gt;</span> <span class="err">\</span>
+      <span class="o">-</span><span class="n">DSPIRV_INCLUDE_DIR</span><span class="o">=&lt;</span><span class="p">...</span><span class="o">&gt;</span>                         <span class="err">\</span>
+      <span class="o">-</span><span class="n">DSPIRV_TOOLS_INCLUDE_DIR</span><span class="o">=&lt;</span><span class="p">...</span><span class="o">&gt;</span>                   <span class="err">\</span>
+      <span class="o">-</span><span class="n">DSPIRV_TOOLS_LIBRARY_DIR</span><span class="o">=&lt;</span><span class="p">...</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">Debug</span></code> build type is strongly recommended while Talvos is still in
+the early stages of development, to enable assertions that guard unimplemented
+features.</p>
+<p>Once configured, use <code class="docutils literal notranslate"><span class="pre">make</span></code> (or your preferred build tool) to build and
+install. Run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> to run the internal test suite.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>More detailed usage information is provided
+<a class="reference external" href="https://talvos.github.io/usage.html">here</a>.</p>
+<p>Talvos provides an implementation of the Vulkan API which allows existing
+Vulkan applications to be executed through the emulator without modification.
+Simply linking an application against <code class="docutils literal notranslate"><span class="pre">libtalvos-vulkan.so</span></code> or
+<code class="docutils literal notranslate"><span class="pre">talvos-vulkan.lib</span></code> is enough for it to use Talvos.</p>
+<p>Alternatively, the <code class="docutils literal notranslate"><span class="pre">talvos-cmd</span></code> command provides a simple interface to the
+emulator.
+An example that runs a simple N-Body simulation can be found in
+<code class="docutils literal notranslate"><span class="pre">test/misc/nbody.tcf</span></code>.</p>
+<p>The following command is used to execute a Talvos command file:</p>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span><span class="n">talvos</span><span class="o">-</span><span class="n">cmd</span> <span class="n">nbody</span><span class="p">.</span><span class="n">tcf</span>
+</pre></div>
+</div>
+<p>The command file contains commands that allocate and initialize storage buffers
+and launch SPIR-V shaders.
+There are also commands that dump the output of storage buffers, to verify
+that the shader executed as expected.</p>
+<p>To enable the interactive debugger, set the environment variable
+<code class="docutils literal notranslate"><span class="pre">TALVOS_INTERACTIVE=1</span></code>.
+This will drop to a prompt when a shader begins executing.
+Use <code class="docutils literal notranslate"><span class="pre">help</span></code> to list the available commands, which include <code class="docutils literal notranslate"><span class="pre">step</span></code> to advance
+through the interpreter, <code class="docutils literal notranslate"><span class="pre">print</span></code> to view an instruction result, and <code class="docutils literal notranslate"><span class="pre">switch</span></code> to
+change the current invocation.</p>
+</div>
+<div class="section" id="more-information">
+<h2>More information<a class="headerlink" href="#more-information" title="Permalink to this headline">¶</a></h2>
+<p>Raise issues and ask questions via
+<a class="reference external" href="https://github.com/talvos/talvos/issues">GitHub</a>.</p>
+<p>The <a class="reference external" href="https://talvos.github.io">Talvos documentation</a> provides more detailed
+information about using Talvos, as well as information for developers.</p>
+<p><a class="reference external" href="https://talvos.github.io/api">Doxygen documentation</a> for the source code is
+also available.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="#">Table of Contents</a></h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Talvos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="talvos-cmd.html">Talvos command files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Talvos developer information</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="building.html" title="Building Talvos"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Talvos 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Talvos developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

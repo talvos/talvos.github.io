@@ -1,0 +1,275 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Usage &#8212; Talvos 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Talvos command files" href="talvos-cmd.html" />
+    <link rel="prev" title="Building Talvos" href="building.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="talvos-cmd.html" title="Talvos command files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="building.html" title="Building Talvos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Talvos 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="vulkan-runtime">
+<h2>Vulkan runtime<a class="headerlink" href="#vulkan-runtime" title="Permalink to this headline">¶</a></h2>
+<p>Talvos provides an implementation of the Vulkan API which allows existing
+Vulkan applications to make use of its dynamic analysis tools without requiring
+source code modifications.
+To use the Talvos Vulkan implementation, simply link the application against
+the <code class="docutils literal notranslate"><span class="pre">talvos-vulkan</span></code> library (e.g. <code class="docutils literal notranslate"><span class="pre">libtalvos-vulkan.so</span></code> or
+<code class="docutils literal notranslate"><span class="pre">talvos-vulkan.lib</span></code>) instead of the Vulkan loader library.
+Alternatively on Unix systems, the <code class="docutils literal notranslate"><span class="pre">LD_PRELOAD</span></code> mechanism can be used to
+force a Vulkan application to use Talvos without requiring it to be relinked:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux - assumes Talvos lib/ directory is on LD_LIBRARY_PATH</span>
+<span class="nv">LD_PRELOAD</span><span class="o">=</span>libtalvos-vulkan.so ./app
+
+<span class="c1"># macOS - assumes Talvos lib/ directory is on DYLD_LIBRARY_PATH</span>
+<span class="nv">DYLD_INSERT_LIBRARIES</span><span class="o">=</span>libtalvos-vulkan.dylib <span class="nv">DYLD_FORCE_FLAT_NAMESPACE</span><span class="o">=</span><span class="m">1</span> ./app
+</pre></div>
+</div>
+</div>
+<div class="section" id="talvos-cmd">
+<h2>talvos-cmd<a class="headerlink" href="#talvos-cmd" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the Vulkan runtime interface, a simple command-line tool is
+provided which allows SPIR-V shaders to be executed without requiring any
+Vulkan host code.
+This involves writing a short command file that describes the way in which a
+shader should be executed (<a class="reference internal" href="talvos-cmd.html#talvos-cmd"><span class="std std-ref">see here for full command file syntax</span></a>).
+A Talvos command file can then be executed with this simple command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ talvos-cmd foo.tcf
+</pre></div>
+</div>
+</div>
+<div class="section" id="errors">
+<h2>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h2>
+<p>If Talvos detects any errors while executing SPIR-V shaders, it will print
+details to <code class="docutils literal notranslate"><span class="pre">stderr</span></code>, including information about which entry point,
+invocation, and SPIR-V instruction caused the problem.
+For example, accessing device memory beyond the extent of a storage buffer
+produces an error message like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Invalid load of 4 bytes from address 0x200000000003c (Device scope)
+    Entry point: %1 vecadd
+    Invocation: Global(15,0,0) Local(0,0,0) Group(15,0,0)
+      %29 = OpLoad %12 %28
+</pre></div>
+</div>
+<p>If a device-scope variable is used without the application providing a
+corresponding descriptor binding, the following error will be produced:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Invalid base pointer for descriptor set entry (0,1)
+    Entry point: %1 vecadd
+    Invocation: Global(0,0,0) Local(0,0,0) Group(0,0,0)
+      %28 = OpAccessChain %13 %10 %21 %25
+</pre></div>
+</div>
+</div>
+<div class="section" id="interactive-spir-v-execution">
+<h2>Interactive SPIR-V execution<a class="headerlink" href="#interactive-spir-v-execution" title="Permalink to this headline">¶</a></h2>
+<p>Talvos provides a simple interactive debugging interface that enables stepping
+through the execution of a SPIR-V shader.
+To enable the interactive debugger, set the environment variable
+<code class="docutils literal notranslate"><span class="pre">TALVOS_INTERACTIVE=1</span></code>.
+When a SPIR-V shader begins executing, Talvos will drop to an interactive
+GDB-style prompt.
+Type <code class="docutils literal notranslate"><span class="pre">help</span></code> to see a list of available commands.
+Using <code class="docutils literal notranslate"><span class="pre">step</span></code> will advance the current invocation by a single SPIR-V
+instruction, and <code class="docutils literal notranslate"><span class="pre">print</span> <span class="pre">%&lt;id&gt;</span></code> will display the value of the SPIR-V object
+with the specified ID.
+Breakpoints can be set on instruction result IDs using <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">%&lt;id&gt;</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">switch</span></code> command can be used to change to a different invocation.
+An example interactive debugging session demonstrating these commands is shown
+below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ TALVOS_INTERACTIVE=1 talvos-cmd nbody.tcf
+
+          OpLabel %61
+-&gt;  %62 = OpAccessChain %21 %12 %31
+    %63 = OpLoad %19 %62
+    %64 = OpAccessChain %23 %13 %31
+    %65 = OpLoad %15 %64
+(talvos) step
+          OpLabel %61
+    %62 = OpAccessChain %21 %12 %31
+-&gt;  %63 = OpLoad %19 %62
+    %64 = OpAccessChain %23 %13 %31
+    %65 = OpLoad %15 %64
+    %66 = OpAccessChain %23 %14 %31
+
+(talvos) break %72
+Breakpoint 1 set for result ID %72
+(talvos) continue
+
+Breakpoint 1 hit by invocation (0,0,0)
+    %69 = OpLoad %19 %68
+    %70 = OpAccessChain %17 %9 %31 %69
+    %71 = OpLoad %16 %70
+-&gt;  %72 = OpIEqual %29 %63 %31
+    %73 = OpLogicalNot %29 %72
+          OpSelectionMerge %74 %0
+          OpBranchConditional %73 %75 %74
+
+(talvos) print %16
+  %16 = float32v4
+(talvos) print %71
+  %71 = {86.52, 0, -94.33, 1}
+
+(talvos) switch 7 0 0
+Switched to invocation with global ID (7,0,0)
+          OpLabel %61
+-&gt;  %62 = OpAccessChain %21 %12 %31
+    %63 = OpLoad %19 %62
+    %64 = OpAccessChain %23 %13 %31
+    %65 = OpLoad %15 %64
+(talvos) continue
+
+Breakpoint 1 hit by invocation (7,0,0)
+    %69 = OpLoad %19 %68
+    %70 = OpAccessChain %17 %9 %31 %69
+    %71 = OpLoad %16 %70
+-&gt;  %72 = OpIEqual %29 %63 %31
+    %73 = OpLogicalNot %29 %72
+          OpSelectionMerge %74 %0
+          OpBranchConditional %73 %75 %74
+(talvos) step
+    %70 = OpAccessChain %17 %9 %31 %69
+    %71 = OpLoad %16 %70
+    %72 = OpIEqual %29 %63 %31
+-&gt;  %73 = OpLogicalNot %29 %72
+          OpSelectionMerge %74 %0
+          OpBranchConditional %73 %75 %74
+
+(talvos) print %29
+  %29 = bool
+(talvos) print %72
+  %72 = false
+(talvos) breakpoint clear
+All breakpoints cleared.
+(talvos) continue
+</pre></div>
+</div>
+<p>While running with <code class="docutils literal notranslate"><span class="pre">continue</span></code>, the interactive debugger will automatically
+break into a prompt whenever Talvos produces an error, allowing the user to
+inspect the state of the current invocation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ TALVOS_INTERACTIVE=1 talvos-cmd device-load-invalid.tcf
+
+          OpLabel %23
+-&gt;  %24 = OpAccessChain %19 %2 %21
+    %25 = OpLoad %12 %24
+    %26 = OpAccessChain %13 %9 %21 %25
+    %27 = OpLoad %12 %26
+    %24 = OpAccessChain %19 %2 %21
+(talvos) continue
+
+Invalid load of 4 bytes from address 0x200000000003c (Device scope)
+    Entry point: %1 vecadd
+    Invocation: Global(15,0,0) Local(0,0,0) Group(15,0,0)
+      %29 = OpLoad %12 %28
+
+    %26 = OpAccessChain %13 %9 %21 %25
+    %27 = OpLoad %12 %26
+    %28 = OpAccessChain %13 %10 %21 %25
+-&gt;  %29 = OpLoad %12 %28
+    %30 = OpIAdd %12 %29 %27
+    %31 = OpAccessChain %13 %11 %21 %25
+          OpStore %31 %30
+
+(talvos) print %28
+  %28 = 0x200000000003c
+(talvos) print %12
+  %12 = int32
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building Talvos</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vulkan-runtime">Vulkan runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#talvos-cmd">talvos-cmd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#errors">Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-spir-v-execution">Interactive SPIR-V execution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="talvos-cmd.html">Talvos command files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Talvos developer information</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="talvos-cmd.html" title="Talvos command files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="building.html" title="Building Talvos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Talvos 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Talvos developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>
